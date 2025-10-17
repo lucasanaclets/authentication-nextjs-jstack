@@ -22,7 +22,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "../../../components/ui/form";
 
 const schema = z.object({
   email: z.email("Informe um e-mail válido"),
