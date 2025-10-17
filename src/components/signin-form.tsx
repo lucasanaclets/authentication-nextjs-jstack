@@ -79,7 +79,16 @@ export function SignInForm({
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Senha</FormLabel>
+                      <div className="flex items-center">
+                        <FormLabel>Senha</FormLabel>
+                        <a
+                          href="#"
+                          className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                        >
+                          Esqueceu sua senha?
+                        </a>
+                      </div>
+
                       <FormControl>
                         <Input
                           {...field}
