@@ -23,10 +23,12 @@ import {
   FormMessage,
 } from "../../../components/ui/form";
 
+import axios from "axios";
+
 const schema = z
   .object({
     fullname: z.string().min(1, "Informe o seu nome completo"),
-    email: z.string().email("Informe um e-mail válido"),
+    email: z.email("Informe um e-mail válido"),
     password: z.string().min(8, "A senha deve ter pelo menos 8 caracteres"),
     confirm_password: z.string().min(8, "Confirme a senha"),
   })
@@ -53,8 +55,8 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
     resolver: zodResolver(schema),
   });
 
-  const handleSubmit = form.handleSubmit((formData) => {
-    console.log(formData);
+  const handleSubmit = form.handleSubmit(async (formData) => {
+    await axios.post("/api/auth/sign-up", formData);
   });
 
   return (
