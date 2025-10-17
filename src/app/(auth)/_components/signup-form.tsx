@@ -12,7 +12,7 @@ import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z from "zod";
+import z, { tuple } from "zod";
 import {
   Form,
   FormControl,
@@ -24,6 +24,9 @@ import {
 } from "../../../components/ui/form";
 
 import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const schema = z
   .object({
@@ -45,6 +48,10 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const route = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<FormData>({
     defaultValues: {
       fullname: "",
@@ -56,7 +63,30 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
   });
 
   const handleSubmit = form.handleSubmit(async (formData) => {
-    await axios.post("/api/auth/sign-up", formData);
+    try {
+      setIsLoading(true);
+
+      await axios.post("/api/auth/sign-up", formData);
+
+      toast.success("Conta cadastrada com sucesso!", {
+        description: (
+          <span className="text-gray-700 dark:text-gray-200">
+            Faça login agora mesmo
+          </span>
+        ),
+      });
+
+      route.push("/signin");
+    } catch {
+      toast.error("Erro ao criar a sua conta!", {
+        description: (
+          <span className="text-gray-700 dark:text-gray-200">
+            Corrija as informações e tente novamente
+          </span>
+        ),
+      });
+      setIsLoading(false);
+    }
   });
 
   return (
@@ -141,7 +171,10 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
 
               <FieldGroup>
                 <Field>
-                  <Button type="submit">Criar conta</Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {!isLoading && "Criar conta"}
+                    {isLoading && "Criando sua conta"}
+                  </Button>
                   <Button variant="outline" type="button">
                     Criar conta com o Google
                   </Button>
