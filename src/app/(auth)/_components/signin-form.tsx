@@ -23,6 +23,10 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../components/ui/form";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.email("Informe um e-mail válido"),
@@ -35,6 +39,9 @@ export function SignInForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [isLoading, setIsLoading] = useState(false);
+  const route = useRouter();
+
   const form = useForm<FormData>({
     defaultValues: {
       email: "",
@@ -43,8 +50,23 @@ export function SignInForm({
     resolver: zodResolver(schema),
   });
 
-  const handleSubmit = form.handleSubmit((formData) => {
-    console.log(formData);
+  const handleSubmit = form.handleSubmit(async (formData) => {
+    try {
+      setIsLoading(true);
+
+      await axios.post("/api/auth/sign-in", formData);
+
+      route.push("/");
+    } catch {
+      toast.error("Credenciais inválidas!", {
+        description: (
+          <span className="text-gray-700 dark:text-gray-200">
+            Corrija as informações e tente novamente
+          </span>
+        ),
+      });
+      setIsLoading(false);
+    }
   });
 
   return (
@@ -102,7 +124,10 @@ export function SignInForm({
                 />
 
                 <Field>
-                  <Button type="submit">Entrar</Button>
+                  <Button disabled={isLoading} type="submit">
+                    {!isLoading && "Entrar"}
+                    {isLoading && "Entrando..."}
+                  </Button>
                   <Button variant="outline" type="button">
                     Entrar com o Google
                   </Button>
