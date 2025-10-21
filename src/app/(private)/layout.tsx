@@ -9,9 +9,9 @@ export default async function PrivatePages({
 }>) {
   const user = await auth();
 
-  if (!user) {
-    return redirect("/signin");
-  }
+  // if (!user) {
+  //   return redirect("/signin");
+  // }
 
   return (
     <div>

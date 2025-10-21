@@ -28,6 +28,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { SignInButton } from "./sign-in-button";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -38,7 +40,12 @@ export function NavUser() {
   async function handleSignout() {
     setIsLoading(true);
     await axios.post("/api/auth/sign-out");
-    router.push("/signin");
+    router.refresh();
+    // router.push("/signin");
+  }
+
+  if (!user) {
+    return <SignInButton />;
   }
 
   return (
