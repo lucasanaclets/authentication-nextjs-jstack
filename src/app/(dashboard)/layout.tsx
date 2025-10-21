@@ -3,6 +3,7 @@ import { AppSidebar } from "./_components/app-sidebar";
 import { SiteHeader } from "./_components/site-header";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export default async function DashboardLayout({
   children,
@@ -17,21 +18,23 @@ export default async function DashboardLayout({
 
   return (
     <div>
-      <SidebarProvider
-        style={
-          {
-            "--sidebar-width": "calc(var(--spacing) * 72)",
-            "--header-height": "calc(var(--spacing) * 12)",
-          } as React.CSSProperties
-        }
-      >
-        <AppSidebar variant="inset" />
+      <AuthProvider user={user}>
+        <SidebarProvider
+          style={
+            {
+              "--sidebar-width": "calc(var(--spacing) * 72)",
+              "--header-height": "calc(var(--spacing) * 12)",
+            } as React.CSSProperties
+          }
+        >
+          <AppSidebar variant="inset" />
 
-        <SidebarInset>
-          <SiteHeader />
-          {children}
-        </SidebarInset>
-      </SidebarProvider>
+          <SidebarInset>
+            <SiteHeader />
+            {children}
+          </SidebarInset>
+        </SidebarProvider>
+      </AuthProvider>
     </div>
   );
 }
