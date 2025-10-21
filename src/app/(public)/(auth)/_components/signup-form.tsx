@@ -120,7 +120,7 @@ export function SignUpForm({ ...props }: React.ComponentProps<typeof Card>) {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome completo</FormLabel>
+                    <FormLabel>E-mail</FormLabel>
                     <FormControl>
                       <Input placeholder="m@example.com" {...field} />
                     </FormControl>
