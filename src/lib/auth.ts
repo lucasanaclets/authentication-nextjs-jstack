@@ -28,11 +28,6 @@ async function verifyJwt(): Promise<null | string> {
   }
 }
 
-export async function isAuthenticated() {
-  const verify = await verifyJwt();
-  return !!verify;
-}
-
 export async function auth(): Promise<User | null> {
   const userId = await verifyJwt();
 
