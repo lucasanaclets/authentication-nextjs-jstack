@@ -27,15 +27,18 @@ import {
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
+import { useState } from "react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { user } = useAuth();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSignout() {
-    router.push("/signin");
+    setIsLoading(true);
     await axios.post("/api/auth/sign-out");
+    router.push("/signin");
   }
 
   return (
@@ -102,7 +105,8 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={handleSignout}>
               <IconLogout />
-              Log out
+              {!isLoading && "Log out"}
+              {isLoading && "Logging out..."}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
