@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-export default async function AuthLayout({
+export default async function PublicPages({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -12,5 +12,5 @@ export default async function AuthLayout({
     return redirect("/");
   }
 
-  return <div>{children}</div>;
+  return children;
 }

@@ -1,9 +1,6 @@
-import { ChartAreaInteractive } from "@/app/(dashboard)/_components/chart-area-interactive";
-import { DataTable } from "@/app/(dashboard)/_components/data-table";
-import { SectionCards } from "@/app/(dashboard)/_components/section-cards";
-import { SiteHeader } from "@/app/(dashboard)/_components/site-header";
-import { SidebarInset } from "@/components/ui/sidebar";
-
+import { ChartAreaInteractive } from "./_components/chart-area-interactive";
+import { DataTable } from "./_components/data-table";
+import { SectionCards } from "./_components/section-cards";
 import data from "./data.json";
 
 export default function Home() {

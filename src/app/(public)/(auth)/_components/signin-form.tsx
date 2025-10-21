@@ -22,7 +22,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../components/ui/form";
+} from "../../../../components/ui/form";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
