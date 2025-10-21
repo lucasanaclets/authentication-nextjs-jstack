@@ -1,20 +1,10 @@
 import { auth } from "@/lib/auth";
+import { withAuth } from "@/lib/withAuth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  const user = await auth();
-
-  if (!user) {
-    return NextResponse.json(
-      {
-        error: "Unauthorized",
-      },
-      { status: 401 }
-    );
-  }
-
+export const GET = withAuth(async (request) => {
   return NextResponse.json({
-    user: user.id,
+    user: request.user.id,
     lifecycle: [1, 2, 3, 4, 5],
   });
-}
+});
